@@ -1,0 +1,12 @@
+{
+  "schema": "readify-rule/1",
+  "id": "registry-key",
+  "name": "Unknown Top Level Key",
+  "version": 1,
+  "domains": ["example.com"],
+  "registry": "https://example.com/rules.json",
+  "content": {
+    "container": "article",
+    "blocks": { "p": { "type": "paragraph" } }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "readify-rule/1",
+  "id": "no-domains",
+  "name": "Empty Domains",
+  "version": 1,
+  "domains": [],
+  "content": {
+    "container": "article",
+    "blocks": { "p": { "type": "paragraph" } }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "readify-rule/2",
+  "id": "wrong-schema",
+  "name": "Wrong Schema Value",
+  "version": 1,
+  "domains": ["example.com"],
+  "content": {
+    "container": "article",
+    "blocks": { "p": { "type": "paragraph" } }
+  }
+}
