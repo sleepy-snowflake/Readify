@@ -11,7 +11,7 @@ class SchemaConsistencyTest {
         val bundled = javaClass.getResourceAsStream("/readify-rule-1.schema.json")!!
             .readBytes()
             .toList()
-        val authoritative = File("../schemas/readify-rule-1.schema.json")
+        val authoritative = File("schemas/readify-rule-1.schema.json")
             .readBytes()
             .toList()
 
