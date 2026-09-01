@@ -22,7 +22,7 @@ data class InlineRun(
 @Serializable
 data class ListItem(
     val runs: List<InlineRun> = emptyList(),
-    val list: ListBlock? = null,
+    val list: Block.ListBlock? = null,
 )
 
 @Serializable
