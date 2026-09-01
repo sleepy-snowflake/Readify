@@ -6,6 +6,10 @@ kotlin {
     jvmToolchain(17)
 }
 
+tasks.withType<Test> {
+    workingDir(rootProject.projectDir)
+}
+
 dependencies {
     api(project(":core:model"))
     implementation(libs.jsoup)
