@@ -1,7 +1,9 @@
 package com.sleepy.readify
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -66,17 +68,18 @@ fun ReadifyApp() {
             }
         },
     ) { innerPadding ->
-        Crossfade(
-            targetState = currentRoute,
-            animationSpec = tween(durationMillis = 250),
-            label = "tab-crossfade",
-        ) { route ->
-            Box(modifier = Modifier.padding(innerPadding)) {
-                when (route) {
-                    Routes.LIBRARY -> PlaceholderScreen(label = stringResource(R.string.tab_library))
-                    Routes.SOURCES -> PlaceholderScreen(label = stringResource(R.string.tab_sources))
-                    else -> PlaceholderScreen(label = stringResource(R.string.tab_library))
-                }
+        NavHost(
+            navController = navController,
+            startDestination = Routes.LIBRARY,
+            modifier = Modifier.padding(innerPadding),
+            enterTransition = { fadeIn(tween(200)) },
+            exitTransition = { fadeOut(tween(200)) },
+        ) {
+            composable(Routes.LIBRARY) {
+                PlaceholderScreen(label = stringResource(R.string.tab_library))
+            }
+            composable(Routes.SOURCES) {
+                PlaceholderScreen(label = stringResource(R.string.tab_sources))
             }
         }
     }
