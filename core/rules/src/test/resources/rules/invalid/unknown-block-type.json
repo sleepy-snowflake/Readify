@@ -1,0 +1,13 @@
+{
+  "schema": "readify-rule/1",
+  "id": "marquee-block",
+  "name": "Unknown Block Type",
+  "version": 1,
+  "domains": ["example.com"],
+  "content": {
+    "container": "article",
+    "blocks": {
+      "marquee": { "type": "marquee" }
+    }
+  }
+}

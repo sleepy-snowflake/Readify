@@ -1,0 +1,10 @@
+{
+  "schema": "readify-rule/1",
+  "name": "No Identifier",
+  "version": 1,
+  "domains": ["example.com"],
+  "content": {
+    "container": "article",
+    "blocks": { "p": { "type": "paragraph" } }
+  }
+}

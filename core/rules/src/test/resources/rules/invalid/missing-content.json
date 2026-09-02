@@ -1,0 +1,7 @@
+{
+  "schema": "readify-rule/1",
+  "id": "no-content",
+  "name": "Missing Content Section",
+  "version": 1,
+  "domains": ["example.com"]
+}

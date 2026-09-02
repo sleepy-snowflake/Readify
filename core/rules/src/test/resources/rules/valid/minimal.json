@@ -1,0 +1,13 @@
+{
+  "schema": "readify-rule/1",
+  "id": "minimal-site",
+  "name": "Minimal Site",
+  "version": 1,
+  "domains": ["minimal.example"],
+  "content": {
+    "container": "article",
+    "blocks": {
+      "p": { "type": "paragraph" }
+    }
+  }
+}

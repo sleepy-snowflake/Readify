@@ -1,0 +1,11 @@
+{
+  "schema": "readify-rule/1",
+  "id": "string-version",
+  "name": "Version Not An Integer",
+  "version": "three",
+  "domains": ["example.com"],
+  "content": {
+    "container": "article",
+    "blocks": { "p": { "type": "paragraph" } }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/sleepy-snowflake/Readify/schemas/readify-rule-1.schema.json",
+  "title": "Readify rule file (readify-rule/1)",
+  "description": "User-imported extraction rule for the Readify read-later app. Version 1 is frozen: new capabilities require a schema v2, never changes to this file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "name", "version", "domains", "content"],
+  "properties": {
+    "schema": { "const": "readify-rule/1" },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "description": "Stable unique identifier. Re-importing with the same id and a higher version updates the rule."
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "version": { "type": "integer", "minimum": 1 },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 3,
+        "pattern": "^[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?$"
+      },
+      "description": "Match key: the rule applies to URLs on these domains, first match by user priority wins."
+    },
+    "requiresJs": {
+      "type": "boolean",
+      "description": "Hint that the site needs WebView rendering before extraction."
+    },
+    "cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "remove": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Selector pre-pass: nodes matching these are removed before extraction."
+        }
+      }
+    },
+    "listing": { "$ref": "#/definitions/listingSection" },
+    "search": { "$ref": "#/definitions/searchSection" },
+    "fields": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title"],
+      "properties": {
+        "title": { "$ref": "#/definitions/fieldSelector" },
+        "author": { "$ref": "#/definitions/fieldSelector" },
+        "date": { "$ref": "#/definitions/fieldSelector" }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["container", "blocks"],
+      "properties": {
+        "container": {
+          "type": "string",
+          "minLength": 1,
+          "description": "CSS selector for the article content root; its descendants are tree-walked."
+        },
+        "blocks": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/definitions/blockRule" },
+          "description": "Maps element selectors to block producers."
+        }
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nextPage"],
+      "properties": {
+        "nextPage": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Selector resolving to the next-page link of a multi-page article (max 10 pages, >= 1s between fetches)."
+        }
+      }
+    },
+    "js": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preExtract"],
+      "properties": {
+        "preExtract": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 65536,
+          "description": "Sandboxed Rhino hook run before extraction; no file, network, reflection, or class-loader access."
+        }
+      }
+    }
+  },
+  "definitions": {
+    "listingSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item", "title", "link"],
+      "properties": {
+        "item": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "link": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "minLength": 1 },
+        "excerpt": { "type": "string", "minLength": 1 },
+        "nextPage": { "type": "string", "minLength": 1 }
+      }
+    },
+    "searchSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "item", "title", "link"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Search URL template; {query} is replaced with the URL-encoded query."
+        },
+        "item": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "link": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "minLength": 1 },
+        "excerpt": { "type": "string", "minLength": 1 }
+      }
+    },
+    "fieldSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sel"],
+      "properties": {
+        "sel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "CSS selector (Jsoup); a trailing ? marks the field optional; @attr reads an attribute."
+        },
+        "attr": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Attribute to read from the selected element (e.g. datetime, content)."
+        }
+      }
+    },
+    "blockRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["heading", "paragraph", "image", "figure", "quote", "code", "list", "table"],
+          "description": "Target ArticleDocument block type. hr is implicit and not mappable."
+        },
+        "level": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "src": { "type": "string", "minLength": 1 },
+        "alt": { "type": "string", "minLength": 1 },
+        "caption": { "type": "string", "minLength": 1 },
+        "lang": { "type": "string", "minLength": 1 },
+        "ordered": { "type": "boolean" }
+      }
+    }
+  }
+}

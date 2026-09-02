@@ -1,0 +1,49 @@
+{
+  "schema": "readify-rule/1",
+  "id": "example-blog",
+  "name": "Example Blog",
+  "version": 3,
+  "domains": ["example.com", "blog.example.com"],
+  "requiresJs": false,
+  "cleanup": {
+    "remove": ["nav", ".ads", "script", "style"]
+  },
+  "listing": {
+    "item": "article.post",
+    "title": "h2 a",
+    "link": "h2 a@href",
+    "date": "time@datetime?",
+    "excerpt": ".summary?",
+    "nextPage": "a.next?"
+  },
+  "search": {
+    "url": "https://example.com/?s={query}",
+    "item": "article.post",
+    "title": "h2 a",
+    "link": "h2 a@href",
+    "date": "time@datetime?",
+    "excerpt": ".summary?"
+  },
+  "fields": {
+    "title": { "sel": "h1.article-title" },
+    "author": { "sel": ".byline .author?" },
+    "date": { "sel": "time?", "attr": "datetime" }
+  },
+  "content": {
+    "container": "article.post",
+    "blocks": {
+      "h2": { "type": "heading", "level": 2 },
+      "h3": { "type": "heading", "level": 3 },
+      "p": { "type": "paragraph" },
+      "img": { "type": "image", "src": "src", "alt": "alt" },
+      "figure": { "type": "figure", "src": "img@src", "caption": "figcaption" },
+      "pre": { "type": "code", "lang": "code@class?" },
+      "blockquote": { "type": "quote" },
+      "ul": { "type": "list" },
+      "ol": { "type": "list", "ordered": true },
+      "table": { "type": "table" }
+    }
+  },
+  "pagination": { "nextPage": "a.next?" },
+  "js": { "preExtract": "function(doc){ return doc; }" }
+}
