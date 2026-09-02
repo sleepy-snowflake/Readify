@@ -1,8 +1,11 @@
 package com.sleepy.readify
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -38,28 +42,41 @@ fun ReadifyApp() {
                 NavigationBarItem(
                     selected = currentRoute == Routes.LIBRARY,
                     onClick = { navController.navigateToTopLevel(Routes.LIBRARY) },
-                    icon = { Icon(painterResource(R.drawable.ic_home), contentDescription = null) },
+                    icon = {
+                        Icon(
+                            painterResource(R.drawable.ic_home),
+                            contentDescription = null,
+                            modifier = Modifier.size(28.dp),
+                        )
+                    },
                     label = { Text(stringResource(R.string.tab_library)) },
                 )
                 NavigationBarItem(
                     selected = currentRoute == Routes.SOURCES,
                     onClick = { navController.navigateToTopLevel(Routes.SOURCES) },
-                    icon = { Icon(painterResource(R.drawable.ic_person), contentDescription = null) },
+                    icon = {
+                        Icon(
+                            painterResource(R.drawable.ic_person),
+                            contentDescription = null,
+                            modifier = Modifier.size(28.dp),
+                        )
+                    },
                     label = { Text(stringResource(R.string.tab_sources)) },
                 )
             }
         },
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = Routes.LIBRARY,
-            modifier = Modifier.padding(innerPadding),
-        ) {
-            composable(Routes.LIBRARY) {
-                PlaceholderScreen(label = stringResource(R.string.tab_library))
-            }
-            composable(Routes.SOURCES) {
-                PlaceholderScreen(label = stringResource(R.string.tab_sources))
+        Crossfade(
+            targetState = currentRoute,
+            animationSpec = tween(durationMillis = 250),
+            label = "tab-crossfade",
+        ) { route ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                when (route) {
+                    Routes.LIBRARY -> PlaceholderScreen(label = stringResource(R.string.tab_library))
+                    Routes.SOURCES -> PlaceholderScreen(label = stringResource(R.string.tab_sources))
+                    else -> PlaceholderScreen(label = stringResource(R.string.tab_library))
+                }
             }
         }
     }
