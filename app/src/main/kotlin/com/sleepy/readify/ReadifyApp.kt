@@ -3,9 +3,6 @@ package com.sleepy.readify
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -15,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -40,13 +38,13 @@ fun ReadifyApp() {
                 NavigationBarItem(
                     selected = currentRoute == Routes.LIBRARY,
                     onClick = { navController.navigateToTopLevel(Routes.LIBRARY) },
-                    icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+                    icon = { Icon(painterResource(R.drawable.ic_home), contentDescription = null) },
                     label = { Text(stringResource(R.string.tab_library)) },
                 )
                 NavigationBarItem(
                     selected = currentRoute == Routes.SOURCES,
                     onClick = { navController.navigateToTopLevel(Routes.SOURCES) },
-                    icon = { Icon(Icons.Filled.Person, contentDescription = null) },
+                    icon = { Icon(painterResource(R.drawable.ic_person), contentDescription = null) },
                     label = { Text(stringResource(R.string.tab_sources)) },
                 )
             }
